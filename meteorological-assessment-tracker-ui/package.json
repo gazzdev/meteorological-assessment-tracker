@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "docs": "ng build --prod --outputPath=../docs/ --base-href=https://gazz.dev/meteorological-assessment-tracker/"
+    "docs": "ng build --prod --outputPath=../docs/ --base-href=https://gazzdev.github.io/meteorological-assessment-tracker/"
   },
   "private": true,
   "dependencies": {
