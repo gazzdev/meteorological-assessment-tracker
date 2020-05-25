@@ -1,0 +1,16 @@
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformer.exe
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformer.deps.json
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformer.runtimeconfig.json
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformer.runtimeconfig.dev.json
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformer.dll
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformer.pdb
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\CsvHelper.dll
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformerApi.dll
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\bin\Debug\netcoreapp3.1\DataTransformerApi.pdb
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\obj\Debug\netcoreapp3.1\DataTransformer.csprojAssemblyReference.cache
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\obj\Debug\netcoreapp3.1\DataTransformer.AssemblyInfoInputs.cache
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\obj\Debug\netcoreapp3.1\DataTransformer.AssemblyInfo.cs
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\obj\Debug\netcoreapp3.1\DataTransformer.csproj.CopyComplete
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\obj\Debug\netcoreapp3.1\DataTransformer.dll
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformer\obj\Debug\netcoreapp3.1\DataTransformer.pdb

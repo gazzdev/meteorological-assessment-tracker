@@ -1,0 +1,92 @@
+<label for="area">Choose area</label>
+<select id="area" [(ngModel)]="selectedArea" (ngModelChange)="loadAreaData()">
+    <option [ngValue]="null">Please select...</option>
+    <option *ngFor="let area of (areas | async)" [ngValue]="area">{{area}}</option>
+</select>
+
+<div *ngIf="selectedArea">
+
+    <ng-container *ngIf="trackerService.data | async as data; else loadingElement">
+        <div *ngIf="data">
+
+            <p>{{selectedArea}} loaded!</p>
+
+            <p>
+                Percentage of full data set with valid data: {{trackerService.metaData?.ValidDataPercentage | number: '1.2-2'  }} <br />
+                {{trackerService.metaData?.ValidDays}} days out of {{trackerService.metaData?.TotalDays}} have valid data.
+            </p>
+
+            <label for="maxWindSpeed">Max wind speed</label>
+            <input type="number" id="maxWindSpeed" [(ngModel)]="maxWindSpeed" />
+
+            <br />
+
+            <label for="maxTideHeight">Max tide height</label>
+            <input type="number" id="maxTideHeight" [(ngModel)]="maxTideHeight" />
+
+            <br />
+
+            <label for="maxRainfall">Max rainfall</label>
+            <input type="number" id="maxRainfall" [(ngModel)]="maxRainfall" />
+
+            <br />
+
+            <label for="daylight">Day light only</label>
+            <input type="checkbox" id="daylight" [(ngModel)]="daylight" />
+
+            <br />
+
+            <label for="fromDate">From</label>
+            <input type="date" id="fromDate" [ngModel]="trackerService.fromDate | date:'yyyy-MM-dd'"
+                (ngModelChange)="trackerService.fromDate = parseDate($event)"/>
+
+            <br />
+
+            <label for="toDate">To</label>
+            <input type="date" id="toDate"
+              [ngModel]="trackerService.toDate | date:'yyyy-MM-dd'"
+                (ngModelChange)="trackerService.toDate = parseDate($event)"  />
+
+            <br />
+
+            <button (click)="calculate()">Calculate available hours</button>
+
+
+            <p *ngIf="calculating">Calculating hours...</p>
+
+            <p *ngIf="!calculating && result">
+                Calculated hours: {{result.hours}} <br />
+                Total days in asked range: {{result.totalDaysInRange}} <br />
+                Days with valid data: {{result.validDataDays}} <br />
+                Percentage of days with valid data: {{result.percentageOfValidDays | number: '1.2-2'}} <br />
+            </p>
+
+            <p *ngIf="trackerService.calculateMessage && !result?.hours">
+                Status: {{trackerService.calculateMessage}}
+            </p>
+
+        </div>
+
+    </ng-container>
+    <ng-template #loadingElement>
+        <div *ngFor="let progress of trackerService.progress">
+            <label for="rainfallProgress">Downloading year: {{progress[0]}}</label>
+            <br />
+            <progress id="rainfallProgress" value="{{ progress[1] }}"
+                max="100">{{ progress[1] }}</progress>{{ progress[1] }}%
+        </div>
+    </ng-template>
+
+
+</div>
+
+
+<!-- <div *ngIf="selectedArea">
+    <ul>
+        <li>Wind: <span *ngIf="loadingWind">Loading...</span><span *ngIf="loadedWind">Loaded!</span></li>
+        <li>Daylight: <span *ngIf="loadingDayligh">Loading...</span><span *ngIf="loadedDayligh">Loaded!</span></li>
+        <li>Tide: <span *ngIf="loadingTide">Loading...</span><span *ngIf="loadedTide">Loaded!</span></li>
+        <li>Rainfall: <span *ngIf="loadingRainfall">Loading...</span><span *ngIf="loadedRainfall">Loaded!</span></li>
+        <li>Preparing: <span *ngIf="loading">Preparing...</span><span *ngIf="loaded">Ready!</span></li>
+    </ul>
+</div> -->

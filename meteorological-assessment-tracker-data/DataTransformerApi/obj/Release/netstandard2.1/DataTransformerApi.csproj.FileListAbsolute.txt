@@ -1,0 +1,8 @@
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\bin\Release\netstandard2.1\DataTransformerApi.deps.json
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\bin\Release\netstandard2.1\DataTransformerApi.dll
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\bin\Release\netstandard2.1\DataTransformerApi.pdb
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\obj\Release\netstandard2.1\DataTransformerApi.AssemblyInfoInputs.cache
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\obj\Release\netstandard2.1\DataTransformerApi.AssemblyInfo.cs
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\obj\Release\netstandard2.1\DataTransformerApi.dll
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\obj\Release\netstandard2.1\DataTransformerApi.pdb
+C:\Users\garet\Source\Repos\meteorological-assessment-tracker\meteorological-assessment-tracker-data\DataTransformerApi\obj\Release\netstandard2.1\DataTransformerApi.csprojAssemblyReference.cache
