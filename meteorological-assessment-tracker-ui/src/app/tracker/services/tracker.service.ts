@@ -44,7 +44,9 @@ export class TrackerService {
   }
 
   getAreaMetaData(area: string): Observable<MetaDataModel> {
-    return this.httpClient.get<MetaDataModel>(`./assets/data/${area}/meta-data.json`);
+    return this.httpClient.get<MetaDataModel>(`./assets/data/${area}/meta-data.json`).pipe(tap((m) => {{
+      console.log("meta data", m);
+    }}));
   }
 
 
@@ -178,6 +180,12 @@ export class TrackerService {
       this.metaData.TotalDays = x.TotalDays;
       this.metaData.ValidDataPercentage = x.ValidDataPercentage;
       this.metaData.ValidDays = x.ValidDays;
+
+      this.metaData.InvalidRainfallCount = x.InvalidRainfallCount;
+      this.metaData.InvalidTideCount = x.InvalidTideCount;
+      this.metaData.InvalidWeatherCount = x.InvalidWeatherCount;
+
+      
 
       let observables: Observable<AreaDataModel[]>[] = []
       for(const year of x.AvailableYears) {

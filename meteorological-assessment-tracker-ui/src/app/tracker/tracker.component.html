@@ -12,8 +12,17 @@
             <p>{{selectedArea}} loaded!</p>
 
             <p>
+                Invalid rainfall days count: {{trackerService.metaData?.InvalidRainfallCount | number}} <br />
+                Invalid tide days count: {{trackerService.metaData?.InvalidTideCount | number}} <br />
+                Invalid weather days count: {{trackerService.metaData?.InvalidWeatherCount | number}} <br /> 
+                <br />
+                Some of theses days will be invalid across more than one of rainfall, tide and weather <br />
+            </p>
+            <p>
                 Percentage of full data set with valid data: {{trackerService.metaData?.ValidDataPercentage | number: '1.2-2'  }} <br />
-                {{trackerService.metaData?.ValidDays}} days out of {{trackerService.metaData?.TotalDays}} have valid data.
+                {{trackerService.metaData?.ValidDays}} days out of {{trackerService.metaData?.TotalDays}} have valid data. <br />
+
+               
             </p>
 
             <label for="maxWindSpeed">Max wind speed</label>

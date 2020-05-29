@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,15 +20,15 @@ namespace DataTransformerApi
     public class MetAssessmentTrackerDataTransformer
     {
 
-        public const string RainfallFileName = "Rainfall.txt";
-        public const string DaylightFileName = "Daylight.txt";
-        public const string TideFileName = "Tide.txt";
-        public const string WeatherFileName = "Weather.txt";
+        public const string RainfallFileName = "Rainfall2.csv";
+        public const string DaylightFileName = "Daylight.csv";
+        public const string TideFileName = "Tide.csv";
+        public const string WeatherFileName = "Weather.csv";
 
         public void TransformAllData(string source, string destination)
         {
             var areaFolders = Directory.GetDirectories(source);
-             //areaFolders = areaFolders.Where(x => x.Contains("Barmouth")).ToArray();
+            areaFolders = areaFolders.Where(x => x.Contains("Llandudno")).ToArray();
             Parallel.ForEach(areaFolders, (areaFolder) =>
             {
                 Console.WriteLine($"Starting {areaFolder}");
@@ -66,17 +67,39 @@ namespace DataTransformerApi
 
 
             var concurrentBag = new ConcurrentBag<AreaDataModel>();
+            var failedBag = new ConcurrentBag<FailedModel>();
             Parallel.ForEach(daylight, new ParallelOptions()
             {
                 MaxDegreeOfParallelism = -1
             }, (day) =>
             {
-                if (!day.Date.HasValue) return;
+                if (!day.Date.HasValue)
+                {
+
+                    failedBag.Add(new FailedModel()
+                    {
+                        Date = day.Date,
+                        DateType = "DayLight",
+                        Reason = "Missing date"
+                    });
+
+                    return;
+                };
                 Console.WriteLine($"${areaFolder} {day.Date.Value.ToShortDateString()}");
 
                 var dayLight = daylight.Find(x => x.Date == day.Date);
 
-                if (!dayLight.Sunrise.HasValue || !dayLight.Sunset.HasValue) return;
+                if (!dayLight.Sunrise.HasValue || !dayLight.Sunset.HasValue)
+                {
+                    failedBag.Add(new FailedModel()
+                    {
+                        Date = day.Date,
+                        DateType = "DayLight",
+                        Reason = $"Missing sunrise {dayLight.Sunrise.HasValue}. Missing sunset {dayLight.Sunset.HasValue}"
+                    });
+
+                    return;
+                };
 
                 var data = new AreaDataModel
                 {
@@ -104,6 +127,40 @@ namespace DataTransformerApi
             //    Tide = tide.Find(x => x.Timestamp == day.Date),
             //    Weather = weather.Find(x => x.Timestamp == day.Date)
             //}).ToList();
+
+            var missingRainfall = concurrentBag.Where(x => !x.Rainfall.Any()).ToList();
+            var missingTide = concurrentBag.Where(x => !x.Tide.Any()).ToList();
+            var mssingWeather = concurrentBag.Where(x => !x.Weather.Any()).ToList();
+
+            foreach (var missingRain in missingRainfall)
+            {
+                failedBag.Add(new FailedModel()
+                {
+                    Date = missingRain.Date,
+                    DateType = "Rainfall",
+                    Reason = $"Missing"
+                });
+            }
+
+            foreach (var missingRain in missingTide)
+            {
+                failedBag.Add(new FailedModel()
+                {
+                    Date = missingRain.Date,
+                    DateType = "Tide",
+                    Reason = $"Missing"
+                });
+            }
+
+            foreach (var missingRain in mssingWeather)
+            {
+                failedBag.Add(new FailedModel()
+                {
+                    Date = missingRain.Date,
+                    DateType = "Rain",
+                    Reason = $"Missing"
+                });
+            }
 
             var results = concurrentBag.Where(
                 x => x.Daylight != null && x.Tide.Any() && x.Rainfall.Any() && x.Weather.Any()).OrderBy(x=>x.Date).ToList();
@@ -133,9 +190,19 @@ namespace DataTransformerApi
             {
                 TotalDays = daylight.Count, ValidDays = results.Count, AvailableYears = years,
                 FirstAvailableDate = results.First().Date,
-                LastvailableDate = results.Last().Date
+                LastvailableDate = results.Last().Date,
+                InvalidRainfallCount = missingRainfall.Count,
+                InvalidTideCount = missingTide.Count,
+                InvalidWeatherCount = mssingWeather.Count
             };
             await SaveAsJson(metaData, Path.Combine(destination, areaName, Path.GetFileName($"meta-data.json")));
+
+            // write failed date
+
+            await using var writer = new StreamWriter(Path.Combine(destination, areaName, Path.GetFileName($"failed-data.csv")));
+            await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            await csv.WriteRecordsAsync((IEnumerable) failedBag);
+
 
             //await SaveAsJson(daylight, Path.Combine(destination, areaName, Path.GetFileName("daylight.json")));
             //await SaveAsJson(rainfall, Path.Combine(destination, areaName, Path.GetFileName("rainfall.json")));
@@ -178,16 +245,23 @@ namespace DataTransformerApi
             using var reader = new StreamReader(dayLightPath);
             using var csv = new CsvReader(reader, new CultureInfo("en-gb"));
             csv.Configuration.TypeConverterOptionsCache.GetOptions<decimal?>().NullValues.Add("NaN");
+            csv.Configuration.TypeConverterOptionsCache.GetOptions<decimal?>().NullValues.Add("");
+            csv.Configuration.TypeConverterOptionsCache.GetOptions<decimal?>().NullValues.Add(" ");
             csv.Configuration.RegisterClassMap<WeatherModelMap>();
             csv.Configuration.RegisterClassMap<TideModelMap>();
             csv.Configuration.RegisterClassMap<RainfallModelMap>();
             csv.Configuration.RegisterClassMap<DaylightModelMap>();
+            csv.Configuration.BadDataFound =BadDataFound;
 
 
             var records = csv.GetRecords<T>().ToList();
             return records;
         }
 
-
+        private static void BadDataFound(ReadingContext obj)
+        {
+            Console.WriteLine(obj);
+            //throw new NotImplementedException();
+        }
     }
 }

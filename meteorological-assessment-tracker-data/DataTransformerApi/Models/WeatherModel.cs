@@ -20,7 +20,7 @@ namespace DataTransformerApi.Models
         {
             Map(m => m.Timestamp).Name("Timestamp");
             Map(m => m.WindDirection).Name("Wind_Direction");
-            Map(m => m.WindSpeed).Name("Wind_Speed");
+            Map(m => m.WindSpeed).Name("m/s");
             Map(m => m.Pressure).Name("Pressure");
         }
     }
